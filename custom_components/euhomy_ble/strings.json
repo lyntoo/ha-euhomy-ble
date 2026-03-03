@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "bluetooth_confirm": {
+        "title": "Euhomy BLE Device Detected",
+        "description": "Found **{name}** ({address}).\n\nConfirm to continue and enter your Tuya local key."
+      },
+      "user": {
+        "title": "Select Euhomy Device",
+        "data": {
+          "address": "Device"
+        }
+      },
+      "local_key": {
+        "title": "Tuya Local Key",
+        "description": "Enter the 16-character Tuya local key for your device.\n\n**How to get it:**\n1. Install the **Tuya Smart** app and re-pair your CFC-25.\n2. Log in at https://iot.tuya.com → Cloud → Devices.\n3. Find your device and copy its **Local Key**.\n\nAlternatively, link your Euhomy account to a Tuya IoT developer project.",
+        "data": {
+          "local_key": "Local Key (16 characters)"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Device is already configured",
+      "no_devices_found":   "No Euhomy BLE devices found nearby",
+      "not_supported":      "This device is not supported"
+    },
+    "error": {
+      "invalid_local_key_length": "The local key must be exactly 16 characters"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+# Sensitive device credentials — never commit
+.local_key.txt
+*.local_key*
+euhomy/.tuya_api
+euhomy/.local_key.txt
+euhomy/devices.json
+
+# Dev tools and personal notes
+custom_components/euhomy_ble/get_local_key.py
+custom_components/euhomy_ble/NOTES.md
+custom_components/euhomy_ble/snapshot.json
+custom_components/euhomy_ble/tinytuya.json
+custom_components/euhomy_ble/tuya-raw.json
+custom_components/euhomy_ble/home-assistant*.log
+
+# Capture files
+euhomy/
+*.pcapng
+*.btsnoop
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Misc
+*.txt
+*.conf
+*.yaml
