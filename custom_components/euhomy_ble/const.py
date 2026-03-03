@@ -22,11 +22,11 @@ SUPPORTED_MODELS: dict[str, str] = {
 # BLE advertisement name (confirmed by user BLE scan)
 BLE_LOCAL_NAME = "TY"
 
-# Known BLE MAC address (from app, "local mode") — REMOVE BEFORE GIT PUSH
-KNOWN_MAC = "DC:23:52:1B:5C:7C"
+# Known BLE MAC address — fill in your own device MAC for local dev
+KNOWN_MAC = ""
 
-# Tuya cloud virtual device ID (from app device info) — REMOVE BEFORE GIT PUSH
-TUYA_VIRTUAL_ID = "eb5cc8atkfnwvaxk"
+# Tuya cloud virtual device ID — fill in your own device ID for local dev
+TUYA_VIRTUAL_ID = ""
 
 # Tuya manufacturer_id used in BLE advertisements (0x07D0 = 2000 decimal)
 TUYA_MANUFACTURER_ID = 0x07D0

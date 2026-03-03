@@ -373,8 +373,8 @@ class TuyaBLEClient:
                     return False
 
                 self._is_paired = True
-                _LOGGER.warning(
-                    "=== Tuya BLE handshake complete — paired to %s ===",
+                _LOGGER.info(
+                    "Tuya BLE handshake complete — paired to %s",
                     self._ble_device.address,
                 )
 
@@ -406,11 +406,9 @@ class TuyaBLEClient:
     async def publish_dp(self, dp: TuyaDP) -> None:
         """Write a single DP value to the device."""
         payload = encode_dp(dp)
-        _LOGGER.warning(
-            "=== publish_dp: id=%d type=%d value=%r payload=%s connected=%s paired=%s ===",
-            dp.dp_id, dp.dp_type, dp.value,
-            payload.hex(),
-            self._connected, self._is_paired,
+        _LOGGER.debug(
+            "publish_dp: id=%d type=%d value=%r payload=%s",
+            dp.dp_id, dp.dp_type, dp.value, payload.hex(),
         )
         await self._send(_CMD_SEND_DPS, payload)
 
@@ -494,7 +492,7 @@ class TuyaBLEClient:
     def _notification_handler(self, _sender: int, raw: bytearray) -> None:
         """Reassemble fragmented packets then parse."""
         data = bytes(raw)
-        _LOGGER.warning("=== RAW NOTIFY (%d B): %s ===", len(data), data.hex())
+        _LOGGER.debug("RAW NOTIFY (%d B): %s", len(data), data.hex())
 
         try:
             pos = 0
@@ -557,8 +555,8 @@ class TuyaBLEClient:
         seq_num, response_to, code, data_len = struct.unpack(">IIHH", raw[:12])
         data = raw[12: 12 + data_len]
 
-        _LOGGER.warning(
-            "=== Decoded: seq=%d resp_to=%d code=0x%04x data(%dB)=%s ===",
+        _LOGGER.debug(
+            "Decoded: seq=%d resp_to=%d code=0x%04x data(%dB)=%s",
             seq_num, response_to, code, len(data), data.hex(),
         )
 
@@ -572,7 +570,7 @@ class TuyaBLEClient:
             if len(data) >= 12:
                 srand = data[6:12]
                 self._session_key = hashlib.md5(self._local_key_6 + srand).digest()
-                _LOGGER.warning("=== session_key derived (srand=%s) ===", srand.hex())
+                _LOGGER.debug("session_key derived (srand=%s)", srand.hex())
             future = self._pending.pop(response_to, None)
             if future and not future.done():
                 future.set_result(0)
@@ -580,7 +578,7 @@ class TuyaBLEClient:
         elif code == _CMD_PAIR:
             # Response from step-2 handshake
             result = data[0] if data else 1
-            _LOGGER.warning("=== PAIR response: result=%d full_data=%s ===", result, data.hex())
+            _LOGGER.debug("PAIR response: result=%d", result)
             future = self._pending.pop(response_to, None)
             if future and not future.done():
                 future.set_result(result)
@@ -603,7 +601,7 @@ class TuyaBLEClient:
                 dp_data = data[3:]  # skip dp_seq(2B) + flags(1B)
 
             dps = decode_dps(dp_data)
-            _LOGGER.warning("=== DP update: %s ===", [(d.dp_id, d.value) for d in dps])
+            _LOGGER.debug("DP push: %s", [(d.dp_id, d.value) for d in dps])
             if dps and self._on_dp_update:
                 self._on_dp_update(dps)
 
