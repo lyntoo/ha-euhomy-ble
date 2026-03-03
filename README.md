@@ -19,7 +19,7 @@ Control your **Euhomy CFC-25 / CFC-18 portable car refrigerator** directly from 
 | Battery voltage sensor | ✅ |
 | Panel lock | ✅ |
 | Battery protection level (Low / Medium / High) | ✅ |
-| Fault / error codes sensor | ⏳ (DP not yet identified) |
+| Fault / error codes sensor | ❌ Not available via BLE (display-only) |
 
 ---
 
@@ -109,7 +109,6 @@ The fridge uses the Tuya BLE protocol and requires a **local key** for encrypted
 |---|---|---|
 | Euhomy CFC-25 | Climate | Main control: power, setpoint, mode, current temp |
 | Battery Voltage | Sensor | Car battery voltage in volts (e.g. 14.7 V) |
-| Fault | Sensor | Active fault codes (E1–E6) |
 | Battery Protection | Select | Protection level: Low / Medium / High |
 | Display Unit | Select | Switch fridge display between °C and °F |
 | Panel Lock | Switch | Lock / unlock the physical panel buttons |
@@ -135,6 +134,24 @@ For developers and contributors — confirmed via live BLE captures:
 
 ---
 
+## Error codes (display-only)
+
+The fridge displays error codes on its physical front panel. These codes are **not transmitted via BLE** — no Data Point is pushed to Home Assistant when an error occurs. There is no way to create a HA sensor for fault states on this firmware.
+
+| Code | Meaning |
+|---|---|
+| E1 | Battery overvoltage |
+| E2 | Fan motor fault |
+| E3 | Temperature instability |
+| E4 | Compressor fault |
+| E5 | PCB fault |
+| E6 | Temperature sensor fault |
+
+> Confirmed by live BLE captures with E6 (sensor fault) active: only the normal status DPs
+> (temperature, battery, mode…) were received — no fault DP appeared at any point.
+
+---
+
 ## Protocol notes
 
 - BLE service UUID: `00001910-0000-1000-8000-00805f9b34fb`
@@ -146,8 +163,7 @@ For developers and contributors — confirmed via live BLE captures:
 
 ## Contributing
 
-PRs welcome! Especially for identifying the remaining unknown DPs (panel lock, battery protection level, fault codes).
-Use the `euhomy_ble.scan_dps` HA service to trigger a full DP dump and share the logs.
+PRs welcome! All known DPs are now fully mapped. If you have a different Tuya BLE fridge model and want to add support, use the `euhomy_ble.scan_dps` HA service to trigger a full DP dump and share the logs.
 
 ---
 
