@@ -5,6 +5,9 @@ Control your **Euhomy CFC-25 / CFC-18 portable car refrigerator** directly from 
 > Developed and reverse-engineered from scratch against a real CFC-25 (SKU: CF004-25BL-CAEH).
 > The Euhomy app uses the **Tuya BLE protocol** underneath — this integration speaks it natively.
 
+
+<img width="1554" height="744" alt="Screenshot from 2026-03-03 22-41-35" src="https://github.com/user-attachments/assets/bfce9255-4fe1-4ff8-9763-40013098be56" />
+
 ---
 
 ## Features
